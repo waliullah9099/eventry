@@ -1,8 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-const { createUser, findUserByCredentials } = require("@/db/quires");
+const {
+  createUser,
+  findUserByCredentials,
+  updateInterest,
+} = require("@/db/quires");
 
 async function registerUser(formData) {
   const user = Object.fromEntries(formData);
@@ -22,4 +27,13 @@ async function performLogin(formData) {
   }
 }
 
-export { performLogin, registerUser };
+async function addInterestedEvent(eventId, authId) {
+  try {
+    await updateInterest(eventId, authId);
+  } catch (error) {
+    throw error;
+  }
+  revalidatePath("/");
+}
+
+export { addInterestedEvent, performLogin, registerUser };
