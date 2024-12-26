@@ -4,22 +4,21 @@ import { redirect } from "next/navigation";
 
 const { createUser, findUserByCredentials } = require("@/db/quires");
 
-async function registerUser(fromData) {
-  const user = Object.fromEntries(fromData);
+async function registerUser(formData) {
+  const user = Object.fromEntries(formData);
   const created = await createUser(user);
   redirect("/login");
 }
 
-async function performLogin(fromData) {
-  const credentials = {};
-  createUser.email = fromData.get("email");
-  createUser.password = fromData.get("password");
-  const foundUser = await findUserByCredentials(credentials);
-
-  if (foundUser) {
-    redirect("/");
-  } else {
-    throw new Error(`User with email ${fromData.get("email")} not found`);
+async function performLogin(formData) {
+  try {
+    const credential = {};
+    credential.email = formData.get("email");
+    credential.password = formData.get("password");
+    const found = await findUserByCredentials(credential);
+    return found;
+  } catch (error) {
+    throw error;
   }
 }
 
