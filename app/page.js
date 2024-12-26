@@ -13,3 +13,6 @@ export default function Home({ searchParams: { query } }) {
     </section>
   );
 }
+
+// MONGO_URL = mongodb://localhost:27017/eventry
+// SEND_EMAIL_RESEND_API_URL = re_dKeWxQ9t_M3k5dQhyXcnndubaMEgw55w1
